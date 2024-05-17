@@ -1,0 +1,10 @@
+/bin
+/config
+/node_modules
+/public
+/src
+/templates
+/tests
+/translations
+/var
+/vendor

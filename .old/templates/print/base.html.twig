@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pl-Pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Wygenerowany dokument</title>
+    <style>
+        {% set host = get_environment() == 'prod' ? 'http://sdiwpil.online' : 'http://localhost:80'  %}
+        @font-face {
+            font-family: 'Roboto';
+            src: url('{{host}}/fonts/roboto-regular.eot');
+            src: local('O'),
+            url('{{host}}/fonts/roboto-regular.eot?#iefix') format('embedded-opentype'),
+            url('{{host}}/fonts/roboto-regular.woff2') format('woff2'),
+            url('{{host}}/fonts/roboto-regular.woff') format('woff'),
+            url('{{host}}/fonts/roboto-regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'RobotoBold';
+            src: url('{{host}}/fonts/roboto-bold.eot');
+            src: local('O'),
+            url('{{host}}/fonts/roboto-bold.eot?#iefix') format('embedded-opentype'),
+            url('{{host}}/fonts/roboto-bold.woff2') format('woff2'),
+            url('{{host}}/fonts/roboto-bold.woff') format('woff'),
+            url('{{host}}/fonts/roboto-bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+        }
+
+        b {
+            font-family: 'RobotoBold', sans-serif;
+        }
+
+        .keep-together {
+            page-break-inside: avoid;
+        }
+
+        .break-before {
+            page-break-before: always;
+        }
+
+        .break-after {
+            page-break-after: always;
+        }
+    </style>
+</head>
+<body>
+{% block body %}{% endblock %}
+</body>
+</html>

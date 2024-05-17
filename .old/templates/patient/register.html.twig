@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pacjent | Zarejestruj się | SDIWPIL{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('patient_register') }}
+{% endblock %}
+
+{% block body %}
+    <div id="main"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+      window.state = {{ state|raw }}
+    </script>
+    {{ encore_entry_script_tags('patient_register') }}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lekarz | Rejestracja konta | SDIWPIL{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('doctor_register') }}
+{% endblock %}
+
+{% block body %}
+    <div id="main"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+      window.state = {{ state|raw }}
+    </script>
+    {{ encore_entry_script_tags('doctor_register') }}
+{% endblock %}

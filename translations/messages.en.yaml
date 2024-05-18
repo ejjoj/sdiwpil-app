@@ -1,0 +1,6 @@
+error:
+    500: "Internal Server Error"
+
+success:
+    200: "Success"
+    register: 'User registered successfully'

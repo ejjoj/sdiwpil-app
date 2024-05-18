@@ -11,7 +11,7 @@ class DataValidator
     private array $data;
 
     public function __construct(
-        private FormFactoryInterface $formFactory,
+        private readonly FormFactoryInterface $formFactory,
     )
     {
     }
@@ -32,7 +32,7 @@ class DataValidator
             ->create(UserType::class)
             ->submit($this->data);
         if (!$form->isValid()) {
-            throw new BadRequestException((array) $form->getErrors(true, false));
+            throw new BadRequestException($form);
         }
     }
 }

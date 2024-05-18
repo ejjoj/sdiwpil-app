@@ -4,6 +4,7 @@ namespace App\Service\Form\UserType;
 
 use App\Service\Form\AbstractFormField;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class EmailField extends AbstractFormField
@@ -20,6 +21,6 @@ class EmailField extends AbstractFormField
 
     #[\Override] public function getFieldOptions(): array
     {
-        return ['constraints' => [new NotBlank()]];
+        return ['constraints' => [new NotBlank(), new Email()]];
     }
 }

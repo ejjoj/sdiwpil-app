@@ -1,0 +1,3 @@
+CREATE SCHEMA public;
+DROP SEQUENCE "user_id_seq" CASCADE;
+DROP TABLE "user";

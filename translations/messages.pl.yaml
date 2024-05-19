@@ -1,5 +1,6 @@
 error:
     500: "Wystąpił błąd serwera"
+    user_already_exists: "Użytkownik już istnieje"
 
 success:
     200: "Sukces"

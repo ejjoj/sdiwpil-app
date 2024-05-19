@@ -22,11 +22,7 @@ class PasswordField extends AbstractFormField
 
     #[\Override] public function getFieldOptions(): array
     {
-        return [
-            'hash_property_path' => 'password',
-            'mapped' => false,
-            'constraints' => $this->getConstraints(),
-        ];
+        return ['constraints' => $this->getConstraints()];
     }
 
     public function getConstraints(): array

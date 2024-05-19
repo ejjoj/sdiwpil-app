@@ -1,5 +1,6 @@
 error:
     500: "Internal Server Error"
+    user_already_exists: "User already exists"
 
 success:
     200: "Success"

@@ -8,14 +8,21 @@ abstract class AbstractModel
 
     public function toArray(): array
     {
-        foreach ($this->data as $key => $value) {
-            if ($value instanceof AbstractModel) {
-                $result[$key] = $value->toArray();
-            } else {
-                $result[$key] = $value;
-            }
-        }
+        return $this->recursiveToArray($this->data);
+    }
 
-        return $result ?? [];
+    private function recursiveToArray($data)
+    {
+        if (is_array($data)) {
+            $result = [];
+            foreach ($data as $key => $value) {
+                $result[$key] = $this->recursiveToArray($value);
+            }
+            return $result;
+        } elseif ($data instanceof AbstractModel) {
+            return $data->toArray();
+        } else {
+            return $data;
+        }
     }
 }

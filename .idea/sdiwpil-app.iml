@@ -4,6 +4,8 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="App\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/mail-service/src" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/mail-service/tests" isTestSource="true" packagePrefix="App\Tests\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/cache" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/collections" />
@@ -111,6 +113,65 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/sentry/sentry" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sentry/sentry-symfony" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/psr-http-message-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/doctrine/deprecations" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/doctrine/inflector" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/doctrine/lexer" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/egulias/email-validator" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/monolog/monolog" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/nikic/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/phpdocumentor/reflection-common" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/phpdocumentor/reflection-docblock" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/phpdocumentor/type-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/phpstan/phpdoc-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/psr/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/psr/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/psr/event-dispatcher" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/psr/log" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/amqp-messenger" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/cache-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/config" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/console" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/dependency-injection" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/deprecation-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/dotenv" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/error-handler" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/event-dispatcher" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/event-dispatcher-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/filesystem" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/finder" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/flex" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/framework-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/http-foundation" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/http-kernel" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/mailer" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/maker-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/messenger" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/mime" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/monolog-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/monolog-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/polyfill-intl-grapheme" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/polyfill-intl-idn" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/polyfill-intl-normalizer" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/polyfill-mbstring" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/polyfill-php83" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/process" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/property-access" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/property-info" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/routing" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/runtime" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/serializer" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/service-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/string" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/var-dumper" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/var-exporter" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/symfony/yaml" />
+      <excludeFolder url="file://$MODULE_DIR$/mail-service/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/amqp-messenger" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/messenger" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

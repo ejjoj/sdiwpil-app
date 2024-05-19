@@ -71,6 +71,8 @@ services:
       APP_NAME: mail-service
     tty: true
     stdin_open: true
+    volumes:
+      - ./mail-service:/app:rw
 
   rabbitmq:
     container_name: rabbitmq

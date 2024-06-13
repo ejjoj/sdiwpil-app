@@ -7,9 +7,6 @@
 /public/bundles/
 /var/
 /vendor/
-/*/var/
-/*/vendor/
-*.lock
 ###< symfony/framework-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###

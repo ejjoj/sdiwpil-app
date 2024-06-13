@@ -10,11 +10,12 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Mime\Email;
 
 #[AsMessageHandler]
-final class SendEmailMessageHandler
+final readonly class SendEmailMessageHandler
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly MailerInterface $mailer,
+        private LoggerInterface $logger,
+        private MailerInterface $mailer,
+        private string $from,
     ) {
     }
 
@@ -33,7 +34,7 @@ final class SendEmailMessageHandler
     private function sendEmail(SendEmailMessage $message): void
     {
         $email = (new Email())
-//            ->from($message->getFrom())
+            ->from($this->from)
             ->to($message->getTo())
             ->subject($message->getSubject())
             ->text($message->getText());

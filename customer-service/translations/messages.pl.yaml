@@ -1,0 +1,12 @@
+error:
+    500: "Wystąpił błąd serwera"
+    user_already_exists: "Użytkownik już istnieje"
+
+success:
+    200: "Sukces"
+    register: 'Użytkownik zarejestrowany pomyślnie'
+
+register:
+    welcome:
+        title: "Witaj {name}! Dziękuję za założenie konta"
+        text: "Poniżej znajdziesz użyteczne informacje, które mogą Ci urozmaicić korzystanie z konta w SDIWPIL."

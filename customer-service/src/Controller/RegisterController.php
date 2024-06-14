@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -67,6 +68,9 @@ class RegisterController extends AbstractController
             ->convert();
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     private function sendWelcomingEmail(User $user): void
     {
         $message = $this->welcomingEmailBuilder

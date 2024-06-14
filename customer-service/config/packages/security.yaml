@@ -11,15 +11,15 @@ security:
                 property: email
     firewalls:
         login:
-            pattern: ^/api/login
+            pattern: ^/login
             stateless: true
             json_login:
-                check_path: /api/login_check
+                check_path: /login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 
         api:
-            pattern: ^/api
+            pattern: ^/
             stateless: true
             jwt: ~
 
@@ -30,6 +30,8 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            logout:
+                path: /logout
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -41,9 +43,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/sandbox, roles: PUBLIC_ACCESS }
-        - { path: ^/api/register, roles: PUBLIC_ACCESS  }
-        - { path: ^/api/login, roles: PUBLIC_ACCESS  }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/register, roles: PUBLIC_ACCESS  }
+        - { path: ^/login, roles: PUBLIC_ACCESS  }
+        - { path: ^/,       roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

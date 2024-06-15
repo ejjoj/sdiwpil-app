@@ -9,7 +9,7 @@ services:
       - mail-service
       - doctor-service
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - ./proxy-service/nginx.conf:/etc/nginx/nginx.conf:ro
 

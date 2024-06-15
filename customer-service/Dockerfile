@@ -24,8 +24,5 @@ RUN chmod +x /usr/local/bin/install-php-extensions && sync
 RUN install-php-extensions amqp
 RUN docker-php-ext-install pdo pdo_pgsql zip
 
-# Install project dependencies
-RUN symfony composer install --no-interaction
-
 # Run Symfony server
-CMD ["symfony", "server:start"]
+CMD ["sh", "-c", "cd /app && symfony composer install --no-interaction && symfony server:start"]

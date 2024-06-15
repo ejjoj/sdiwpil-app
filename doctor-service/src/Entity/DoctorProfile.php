@@ -15,7 +15,7 @@ class DoctorProfile
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column(length: 128, nullable: true)]
     private ?string $secondName = null;
@@ -31,7 +31,10 @@ class DoctorProfile
 
     #[ORM\ManyToOne(inversedBy: 'doctorProfiles')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?MedicalSpecialisation $medicalSpecialisation = null;
+    private MedicalSpecialisation $medicalSpecialisation;
+
+    #[ORM\Column]
+    private int $customerId;
 
     public function getId(): ?int
     {
@@ -62,7 +65,7 @@ class DoctorProfile
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getSurname(): string
     {
         return $this->surname;
     }
@@ -74,7 +77,7 @@ class DoctorProfile
         return $this;
     }
 
-    public function getNpwz(): ?string
+    public function getNpwz(): string
     {
         return $this->npwz;
     }
@@ -98,7 +101,7 @@ class DoctorProfile
         return $this;
     }
 
-    public function getMedicalSpecialisation(): ?MedicalSpecialisation
+    public function getMedicalSpecialisation(): MedicalSpecialisation
     {
         return $this->medicalSpecialisation;
     }
@@ -106,6 +109,18 @@ class DoctorProfile
     public function setMedicalSpecialisation(?MedicalSpecialisation $medicalSpecialisation): static
     {
         $this->medicalSpecialisation = $medicalSpecialisation;
+
+        return $this;
+    }
+
+    public function getCustomerId(): int
+    {
+        return $this->customerId;
+    }
+
+    public function setCustomerId(int $customerId): static
+    {
+        $this->customerId = $customerId;
 
         return $this;
     }

@@ -16,7 +16,7 @@ class MedicalSpecialisation
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    private string $title;
 
     /**
      * @var Collection<int, DoctorProfile>
@@ -34,7 +34,7 @@ class MedicalSpecialisation
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -66,11 +66,12 @@ class MedicalSpecialisation
 
     public function removeDoctorProfile(DoctorProfile $doctorProfile): static
     {
-        if ($this->doctorProfiles->removeElement($doctorProfile)) {
+        if (
+            $this->doctorProfiles->removeElement($doctorProfile)
+            && $doctorProfile->getMedicalSpecialisation() === $this
+        ) {
             // set the owning side to null (unless already changed)
-            if ($doctorProfile->getMedicalSpecialisation() === $this) {
-                $doctorProfile->setMedicalSpecialisation(null);
-            }
+            $doctorProfile->setMedicalSpecialisation(null);
         }
 
         return $this;

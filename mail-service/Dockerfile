@@ -16,4 +16,4 @@ RUN apt-get update \
 
 RUN docker-php-ext-install zip;
 
-CMD bash -c "cd /app && composer install --no-interaction && php -a"
+CMD bash -c "cd /app && composer install --no-interaction && php bin/console messenger:consume -vvv"

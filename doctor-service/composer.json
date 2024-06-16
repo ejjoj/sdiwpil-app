@@ -20,6 +20,7 @@
         "symfony/flex": "^2",
         "symfony/form": "7.1.*",
         "symfony/framework-bundle": "7.1.*",
+        "symfony/http-client": "7.1.*",
         "symfony/messenger": "7.1.*",
         "symfony/monolog-bundle": "^3.10",
         "symfony/property-access": "7.1.*",
@@ -76,7 +77,8 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.1.*"
+            "require": "7.1.*",
+            "docker": false
         }
     },
     "require-dev": {

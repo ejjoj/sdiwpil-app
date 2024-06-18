@@ -10,8 +10,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 readonly class PermissionValidator
 {
-    public function __construct(private HttpClientInterface $client, private string $authorizationUrl)
-    {
+    public function __construct(
+        private HttpClientInterface $client,
+        private string $authorizationUrl,
+        private TokenConverter $tokenConverter,
+    ) {
     }
 
     /**
@@ -21,23 +24,13 @@ readonly class PermissionValidator
     public function validate(?string $token): void
     {
         try {
-            $preparedToken = $this->prepareToken($token);
             $this->client->request(
-                Request::METHOD_POST,
+                Request::METHOD_GET,
                 $this->authorizationUrl,
-                ['auth_bearer' => $preparedToken]
+                ['auth_bearer' => $this->tokenConverter->convert($token)]
             );
-        } catch (ClientException $exception) {
+        } catch (ClientException) {
             throw new AccessDeniedException();
         }
-    }
-
-    private function prepareToken(?string $token): string
-    {
-        if (!$token) {
-            return '';
-        }
-
-        return str_replace('Bearer ', '', $token);
     }
 }

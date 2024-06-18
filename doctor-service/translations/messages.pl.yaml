@@ -1,0 +1,9 @@
+error:
+    500: "Wystąpił błąd serwera"
+
+doctor:
+    profile:
+        create:
+            201: "Pomyślnie utworzono profil doktora!"
+            400: "Formularz zawiera nielegalne znaki, popraw go i spróbuj ponownie."
+            409: "Profil doktora już istnieje, spróbuj się zalogować!"

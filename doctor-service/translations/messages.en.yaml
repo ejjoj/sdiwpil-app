@@ -1,0 +1,9 @@
+error:
+    500: "Internal Server Error"
+
+doctor:
+    profile:
+        create:
+            201: "Successfully created Doctor Profile!"
+            400: "The form contains illegal data, check it and try again."
+            409: "The profile already exists, try logging in!"

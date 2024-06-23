@@ -13,6 +13,11 @@ class AccessCheckController extends AbstractController
     #[Route(path: '/access/check', methods: ["GET"])]
     public function index(): Response
     {
-        return $this->json(['test']);
+        $user = $this->getUser();
+
+        return $this->json([
+            'id' => $user->getId(),
+            'username' => $user->getUsername(),
+        ]);
     }
 }

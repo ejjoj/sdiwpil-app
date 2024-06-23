@@ -11,7 +11,7 @@ abstract class AbstractFormField
     protected FormBuilderInterface $builder;
 
     abstract protected function getFieldName(): string;
-    abstract protected function getFieldType(): string;
+    abstract protected function getFieldType(): ?string;
     abstract protected function getFieldOptions(): array;
 
     public function setNextField(AbstractFormField $nextField): AbstractFormField

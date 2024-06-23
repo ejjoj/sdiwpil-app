@@ -33,7 +33,7 @@ class DoctorProfile
     #[ORM\JoinColumn(nullable: false)]
     private MedicalSpecialisation $medicalSpecialisation;
 
-    #[ORM\Column]
+    #[ORM\Column(unique: true)]
     private int $customerId;
 
     public function getId(): ?int

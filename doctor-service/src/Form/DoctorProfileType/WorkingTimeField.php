@@ -3,16 +3,20 @@
 namespace App\Form\DoctorProfileType;
 
 use App\Form\AbstractFormField;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints\Length;
+use App\Form\WorkingTimeType;
+use App\Validator\WorkingTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-abstract class AbstractNameField extends AbstractFormField
+class WorkingTimeField extends AbstractFormField
 {
+    protected function getFieldName(): string
+    {
+        return 'workingTime';
+    }
 
     protected function getFieldType(): ?string
     {
-        return TextType::class;
+        return WorkingTimeType::class;
     }
 
     protected function getFieldOptions(): array
@@ -22,16 +26,11 @@ abstract class AbstractNameField extends AbstractFormField
         ];
     }
 
-    protected function getConstraints(): array
+    private function getConstraints(): array
     {
         return [
             new NotBlank(),
-            $this->getLengthConstraint()
+            new WorkingTime(),
         ];
-    }
-
-    protected function getLengthConstraint(): Length
-    {
-        return new Length(['min' => 2, 'max' => 128]);
     }
 }

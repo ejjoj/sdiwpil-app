@@ -5,30 +5,28 @@ namespace App\Form\DoctorProfileType;
 use App\Entity\DoctorProfile;
 use App\Form\AbstractFormField;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class NpwzField extends AbstractFormField
+class CustomerIdField extends AbstractFormField
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly TranslatorInterface $translator,
+        private readonly TranslatorInterface $translator
     ) {
     }
 
-
     protected function getFieldName(): string
     {
-        return 'npwz';
+        return 'customerId';
     }
 
     protected function getFieldType(): ?string
     {
-        return TextType::class;
+        return NumberType::class;
     }
 
     protected function getFieldOptions(): array
@@ -42,21 +40,15 @@ class NpwzField extends AbstractFormField
     {
         return [
             new NotBlank(),
-            new Length(['min' => 10, 'max' => 10]),
-            $this->getCallbackConstraint(),
+            new Callback([$this, 'getCallback'])
         ];
     }
 
-    private function getCallbackConstraint(): Callback
-    {
-        return new Callback([$this, 'getCallback']);
-    }
-
-    public function getCallback(mixed $npwz, ExecutionContextInterface $context): void
+    public function getCallback(mixed $customerId, ExecutionContextInterface $context): void
     {
         $doctorProfile = $this->entityManager
             ->getRepository(DoctorProfile::class)
-            ->findOneBy(['npwz' => $npwz]);
+            ->findOneBy(['customerId' => $customerId]);
 
         if (!$doctorProfile) {
             return;
@@ -64,7 +56,7 @@ class NpwzField extends AbstractFormField
 
         $message = $this->translator->trans('doctor.profile.create.409');
         $context->buildViolation($message)
-            ->atPath('npwz')
+            ->atPath('customerId')
             ->addViolation();
     }
 }

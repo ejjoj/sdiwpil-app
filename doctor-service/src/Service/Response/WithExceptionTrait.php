@@ -4,9 +4,9 @@ namespace App\Service\Response;
 
 trait WithExceptionTrait
 {
-    protected \Exception $exception;
+    protected \Throwable $exception;
 
-    public function withException(\Exception $exception): static
+    public function withException(\Throwable $exception): static
     {
         $this->exception = $exception;
 

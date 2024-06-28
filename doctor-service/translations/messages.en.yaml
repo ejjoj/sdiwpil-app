@@ -1,5 +1,6 @@
 error:
     500: "Internal Server Error"
+    403: "Access Denied. Try logging in."
 
 doctor:
     profile:
@@ -7,3 +8,7 @@ doctor:
             201: "Successfully created Doctor Profile!"
             400: "The form contains illegal data, check it and try again."
             409: "The profile already exists, try logging in!"
+
+        get:
+            200: "Successfully fetched Doctor Profile!"
+            404: "The profile does not exist, try creating one."

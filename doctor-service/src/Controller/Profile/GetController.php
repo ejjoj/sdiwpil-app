@@ -4,52 +4,43 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
-use App\Exception\BadRequestException;
-use App\Form\DoctorProfileType;
+use App\Entity\DoctorProfile;
 use App\Model\Response\ResponseModel;
+use App\Repository\DoctorProfileRepository;
 use App\Service\Authorization\PermissionValidator;
 use App\Service\Authorization\UserFlyweight;
-use App\Service\Entity\DoctorProfile\FormToDoctorProfileConverter;
 use App\Service\Response\ErrorResponseStrategyResolver;
-use App\Service\Response\SuccessResponse\SuccessResponseBuilder;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\Response\SuccessResponse\DoctorProfileSuccessResponseBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/profile')]
-class CreateController extends AbstractController
+class GetController extends AbstractController
 {
     public function __construct(
         private readonly PermissionValidator $permissionValidator,
         private readonly UserFlyweight $userFlyweight,
-        private readonly SuccessResponseBuilder $successResponseBuilder,
         private readonly TranslatorInterface $translator,
         private readonly ErrorResponseStrategyResolver $errorResponseStrategyResolver,
-        private readonly FormToDoctorProfileConverter $doctorProfileConverter,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly DoctorProfileRepository $doctorProfileRepository,
+        private readonly DoctorProfileSuccessResponseBuilder $doctorProfileSuccessResponseBuilder,
     ) {
     }
 
-    #[Route('/create', methods: ['POST'])]
+    #[Route('/get', methods: ['GET'])]
     public function index(Request $request): JsonResponse
     {
         try {
             $token = $request->headers->get('authorization');
             $this->permissionValidator->validate($token);
-            $content = $request->getContent();
-            $payload = json_decode($content, true);
-            unset($payload['customerId']);
-            $payload['customerId'] = $this->userFlyweight->getUser($token)?->getId();
-            $form = $this->createForm(DoctorProfileType::class);
-            $form->submit($payload);
-            assert($form->isValid(), new BadRequestException($form));
-            $doctorProfile = $this->doctorProfileConverter->convert($form->getData());
-            $this->entityManager->persist($doctorProfile);
-            $this->entityManager->flush();
-            $response = $this->getSuccessResponse();
+            $customerId = $this->userFlyweight->getUser($token)?->getId();
+            $profile = $this->doctorProfileRepository->find($customerId);
+            assert((bool) $profile, new NotFoundHttpException($this->getNotFoundMessage()));
+            $response = $this->getSuccessResponse($profile);
         } catch (\Throwable $exception) {
             $response = $this->getErrorResponse($exception);
         } finally {
@@ -57,10 +48,11 @@ class CreateController extends AbstractController
         }
     }
 
-    private function getSuccessResponse(): ResponseModel
+    private function getSuccessResponse(DoctorProfile $doctorProfile): ResponseModel
     {
-        return $this->successResponseBuilder
-            ->withMessage($this->translator->trans('doctor.profile.create.201'))
+        return $this->doctorProfileSuccessResponseBuilder
+            ->withMessage($this->translator->trans('doctor.profile.get.200'))
+            ->withDoctorProfile($doctorProfile)
             ->build();
     }
 
@@ -70,5 +62,10 @@ class CreateController extends AbstractController
             ->withException($exception)
             ->resolve()
             ->get();
+    }
+
+    private function getNotFoundMessage(): string
+    {
+        return $this->translator->trans('doctor.profile.get.404');
     }
 }

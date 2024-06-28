@@ -1,5 +1,6 @@
 error:
     500: "Wystąpił błąd serwera"
+    403: "Brak dostępu. Spróbuj się zalogować."
 
 doctor:
     profile:
@@ -7,3 +8,7 @@ doctor:
             201: "Pomyślnie utworzono profil doktora!"
             400: "Formularz zawiera nielegalne znaki, popraw go i spróbuj ponownie."
             409: "Profil doktora już istnieje, spróbuj się zalogować!"
+
+        get:
+            200: "Pomyślnie pobrano profil doktora!"
+            404: "Profil nie istnieje, spróbuj go utworzyć."

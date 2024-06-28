@@ -10,6 +10,7 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 readonly class PermissionValidator
 {
@@ -18,6 +19,7 @@ readonly class PermissionValidator
         private string $authorizationUrl,
         private TokenConverter $tokenConverter,
         private UserFlyweight $userFlyweight,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -40,7 +42,12 @@ readonly class PermissionValidator
                 ->withUserPayload(json_decode($response->getContent()))
                 ->setUser($token);
         } catch (ClientException) {
-            throw new AccessDeniedException();
+            throw new AccessDeniedException($this->getAccessDeniedMessage());
         }
+    }
+
+    private function getAccessDeniedMessage(): string
+    {
+        return $this->translator->trans('error.403');
     }
 }

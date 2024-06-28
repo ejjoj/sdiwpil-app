@@ -4,7 +4,7 @@ namespace App\Service\Entity\DoctorProfile;
 
 use App\Entity\DoctorProfile;
 
-class DoctorProfileConverter
+class FormToDoctorProfileConverter
 {
     public function convert(array $data): DoctorProfile
     {

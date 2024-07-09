@@ -12,3 +12,7 @@ doctor:
         get:
             200: "Successfully fetched Doctor Profile!"
             404: "The profile does not exist, try creating one."
+            
+        update:
+            200: "Successfully updated Doctor Profile!"
+            404: "The profile does not exist, try creating one."

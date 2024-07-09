@@ -8,4 +8,19 @@ class NameField extends AbstractNameField
     {
         return 'name';
     }
+
+    protected function getFieldOptions(): array
+    {
+        return [
+            'required' => false,
+            'constraints' => $this->getConstraints(),
+        ];
+    }
+
+    protected function getConstraints(): array
+    {
+        return [
+            $this->getLengthConstraint(),
+        ];
+    }
 }

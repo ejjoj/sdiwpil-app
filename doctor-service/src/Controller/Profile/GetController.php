@@ -6,41 +6,46 @@ namespace App\Controller\Profile;
 
 use App\Entity\DoctorProfile;
 use App\Model\Response\ResponseModel;
-use App\Repository\DoctorProfileRepository;
 use App\Service\Authorization\PermissionValidator;
 use App\Service\Authorization\UserFlyweight;
+use App\Service\Controller\Profile\Create\DependencyContainer;
+use App\Service\Entity\DoctorProfile\DoctorProfileFetchingService;
 use App\Service\Response\ErrorResponseStrategyResolver;
 use App\Service\Response\SuccessResponse\DoctorProfileSuccessResponseBuilder;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\Response\SuccessResponse\SuccessResponseBuilder;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/profile')]
-class GetController extends AbstractController
+class GetController extends AbstractProfileController
 {
     public function __construct(
-        private readonly PermissionValidator $permissionValidator,
-        private readonly UserFlyweight $userFlyweight,
-        private readonly TranslatorInterface $translator,
-        private readonly ErrorResponseStrategyResolver $errorResponseStrategyResolver,
-        private readonly DoctorProfileRepository $doctorProfileRepository,
+        protected DependencyContainer $dependencyContainer,
+        protected PermissionValidator $permissionValidator,
+        protected UserFlyweight $userFlyweight,
+        protected SuccessResponseBuilder $successResponseBuilder,
+        protected TranslatorInterface $translator,
+        protected ErrorResponseStrategyResolver $errorResponseStrategyResolver,
+        protected EntityManagerInterface $entityManager,
+        protected RequestStack $requestStack,
         private readonly DoctorProfileSuccessResponseBuilder $doctorProfileSuccessResponseBuilder,
+        private readonly DoctorProfileFetchingService $doctorProfileFetchingService,
     ) {
+        parent::__construct($dependencyContainer);
     }
 
     #[Route('/get', methods: ['GET'])]
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
         try {
-            $token = $request->headers->get('authorization');
-            $this->permissionValidator->validate($token);
-            $customerId = $this->userFlyweight->getUser($token)?->getId();
-            $profile = $this->doctorProfileRepository->find($customerId);
+            $this->validateRequest();
+            $profile = $this->getDoctorProfile();
             assert((bool) $profile, new NotFoundHttpException($this->getNotFoundMessage()));
-            $response = $this->getSuccessResponse($profile);
+            $response = $this->getSuccessResponse('doctor.profile.get.200');
         } catch (\Throwable $exception) {
             $response = $this->getErrorResponse($exception);
         } finally {
@@ -48,20 +53,21 @@ class GetController extends AbstractController
         }
     }
 
-    private function getSuccessResponse(DoctorProfile $doctorProfile): ResponseModel
+    protected function getSuccessResponse(string $translationId): ResponseModel
     {
+        $message = $this->dependencyContainer
+            ->getTranslator()
+            ->trans($translationId);
+
         return $this->doctorProfileSuccessResponseBuilder
-            ->withMessage($this->translator->trans('doctor.profile.get.200'))
-            ->withDoctorProfile($doctorProfile)
+            ->withMessage($message)
+            ->withDoctorProfile($this->getDoctorProfile())
             ->build();
     }
 
-    private function getErrorResponse(\Throwable $exception): ResponseModel
+    private function getDoctorProfile(): ?DoctorProfile
     {
-        return $this->errorResponseStrategyResolver
-            ->withException($exception)
-            ->resolve()
-            ->get();
+        return $this->doctorProfileFetchingService->get();
     }
 
     private function getNotFoundMessage(): string

@@ -4,52 +4,40 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
+use App\Entity\DoctorProfile;
 use App\Exception\BadRequestException;
-use App\Form\DoctorProfileType;
-use App\Model\Response\ResponseModel;
-use App\Service\Authorization\PermissionValidator;
-use App\Service\Authorization\UserFlyweight;
+use App\Form\CreateDoctorProfileType;
+use App\Service\Controller\Profile\Create\DependencyContainer;
 use App\Service\Entity\DoctorProfile\FormToDoctorProfileConverter;
-use App\Service\Response\ErrorResponseStrategyResolver;
-use App\Service\Response\SuccessResponse\SuccessResponseBuilder;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/profile')]
-class CreateController extends AbstractController
+class CreateController extends AbstractCreateUpdateProfileController
 {
     public function __construct(
-        private readonly PermissionValidator $permissionValidator,
-        private readonly UserFlyweight $userFlyweight,
-        private readonly SuccessResponseBuilder $successResponseBuilder,
-        private readonly TranslatorInterface $translator,
-        private readonly ErrorResponseStrategyResolver $errorResponseStrategyResolver,
+        protected DependencyContainer $dependencyContainer,
         private readonly FormToDoctorProfileConverter $doctorProfileConverter,
-        private readonly EntityManagerInterface $entityManager,
     ) {
+        parent::__construct($dependencyContainer);
     }
 
     #[Route('/create', methods: ['POST'])]
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
         try {
-            $token = $request->headers->get('authorization');
-            $this->permissionValidator->validate($token);
-            $content = $request->getContent();
+            $this->validateRequest();
+            $content = $this->getRequest()->getContent();
             $payload = json_decode($content, true);
             unset($payload['customerId']);
-            $payload['customerId'] = $this->userFlyweight->getUser($token)?->getId();
-            $form = $this->createForm(DoctorProfileType::class);
+            $payload['customerId'] = $this->getCustomerId();
+            $form = $this->createForm(CreateDoctorProfileType::class);
             $form->submit($payload);
             assert($form->isValid(), new BadRequestException($form));
-            $doctorProfile = $this->doctorProfileConverter->convert($form->getData());
-            $this->entityManager->persist($doctorProfile);
-            $this->entityManager->flush();
-            $response = $this->getSuccessResponse();
+            $doctorProfile = $this->getDoctorProfile($form);
+            $this->saveProfile($doctorProfile);
+            $response = $this->getSuccessResponse('doctor.profile.create.201');
         } catch (\Throwable $exception) {
             $response = $this->getErrorResponse($exception);
         } finally {
@@ -57,18 +45,20 @@ class CreateController extends AbstractController
         }
     }
 
-    private function getSuccessResponse(): ResponseModel
+    public function getDoctorProfile(FormInterface $form): DoctorProfile
     {
-        return $this->successResponseBuilder
-            ->withMessage($this->translator->trans('doctor.profile.create.201'))
-            ->build();
+        return $this->doctorProfileConverter
+            ->withData($form->getData())
+            ->convert();
     }
 
-    private function getErrorResponse(\Throwable $exception): ResponseModel
+    private function saveProfile(DoctorProfile $doctorProfile): void
     {
-        return $this->errorResponseStrategyResolver
-            ->withException($exception)
-            ->resolve()
-            ->get();
+        $this->dependencyContainer
+            ->getEntityManager()
+            ->persist($doctorProfile);
+        $this->dependencyContainer
+            ->getEntityManager()
+            ->flush();
     }
 }

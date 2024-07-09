@@ -25,4 +25,4 @@ RUN install-php-extensions amqp
 RUN docker-php-ext-install pdo pdo_pgsql zip
 
 # Run Symfony server
-CMD ["sh", "-c", "cd /app && symfony composer install --no-interaction && symfony console doctrine:migrations:migrate --no-interaction --allow-no-migration && symfony server:start"]
+CMD ["sh", "-c", "cd /app && ./init.sh"]

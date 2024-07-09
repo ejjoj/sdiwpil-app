@@ -12,3 +12,7 @@ doctor:
         get:
             200: "Pomyślnie pobrano profil doktora!"
             404: "Profil nie istnieje, spróbuj go utworzyć."
+
+        update:
+            200: "Pomyślnie zaktualizowano profil doktora!"
+            404: "Profil nie istnieje, spróbuj go utworzyć."

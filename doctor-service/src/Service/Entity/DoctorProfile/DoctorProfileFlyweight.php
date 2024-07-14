@@ -20,6 +20,7 @@ class DoctorProfileFlyweight
             return $this->doctorProfiles[$customerId];
         }
 
-        return $this->doctorProfiles[$customerId] = $this->doctorProfileRepository->find($customerId);
+        return $this->doctorProfiles[$customerId] = $this->doctorProfileRepository
+            ->findOneBy(['customerId' => $customerId]);
     }
 }

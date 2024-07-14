@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/profile')]
 class GetController extends AbstractProfileController
@@ -28,7 +27,6 @@ class GetController extends AbstractProfileController
         protected PermissionValidator $permissionValidator,
         protected UserFlyweight $userFlyweight,
         protected SuccessResponseBuilder $successResponseBuilder,
-        protected TranslatorInterface $translator,
         protected ErrorResponseStrategyResolver $errorResponseStrategyResolver,
         protected EntityManagerInterface $entityManager,
         protected RequestStack $requestStack,
@@ -39,7 +37,7 @@ class GetController extends AbstractProfileController
     }
 
     #[Route('/get', methods: ['GET'])]
-    public function index(): JsonResponse
+    public function __invoke(): JsonResponse
     {
         try {
             $this->validateRequest();
@@ -72,6 +70,8 @@ class GetController extends AbstractProfileController
 
     private function getNotFoundMessage(): string
     {
-        return $this->translator->trans('doctor.profile.get.404');
+        return $this->dependencyContainer
+            ->getTranslator()
+            ->trans('doctor.profile.get.404');
     }
 }

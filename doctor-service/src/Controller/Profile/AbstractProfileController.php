@@ -15,7 +15,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 abstract class AbstractProfileController extends AbstractController
 {
-    abstract public function index(): JsonResponse;
+    abstract public function __invoke(): JsonResponse;
 
     public function __construct(
         protected DependencyContainer $dependencyContainer,

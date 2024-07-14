@@ -24,7 +24,7 @@ class CreateController extends AbstractCreateUpdateProfileController
     }
 
     #[Route('/create', methods: ['POST'])]
-    public function index(): JsonResponse
+    public function __invoke(): JsonResponse
     {
         try {
             $this->validateRequest();

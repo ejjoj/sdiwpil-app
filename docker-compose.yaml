@@ -80,8 +80,6 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
-    volumes:
-      - ./rabbitmq-init:/docker-entrypoint-init.d
     networks:
       - app-network
 

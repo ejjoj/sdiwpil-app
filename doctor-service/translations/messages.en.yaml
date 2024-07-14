@@ -20,3 +20,7 @@ doctor:
         delete:
             200: "Successfully deleted Doctor Profile!"
             404: "The profile does not exist, try creating one."
+ 
+        working_time:
+            get:
+                404: "The profile or working time does not exist."

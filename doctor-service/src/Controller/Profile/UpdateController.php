@@ -2,7 +2,6 @@
 
 namespace App\Controller\Profile;
 
-use App\Entity\DoctorProfile;
 use App\Exception\BadRequestException;
 use App\Form\UpdateDoctorProfileType;
 use App\Service\Controller\Profile\Create\DependencyContainer;

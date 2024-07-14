@@ -57,6 +57,20 @@ services:
     volumes:
       - ./doctor-service:/app:rw
 
+  appointment-service:
+    container_name: appointment-service
+    build: appointment-service/.
+    env_file: appointment-service/.env
+    restart: on-failure
+    tty: true
+    stdin_open: true
+    networks:
+      - app-network
+    depends_on:
+      - database
+    volumes:
+      - ./appointment-service:/app:rw
+
   database:
     container_name: database
     image: postgres:16-alpine

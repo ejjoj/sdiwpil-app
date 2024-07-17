@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Profile\WorkingTime;
 
 use App\Entity\DoctorProfile;
-use App\Model\Response\DoctorProfile\WorkingTime\GetDataModel;
 use App\Model\Response\ResponseModel;
 use App\Service\Entity\DoctorProfile\WorkingHours\GetWorkingTimeResponseModelConverter;
 use App\Service\Response\ErrorResponseStrategyResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -32,7 +30,7 @@ class GetController extends AbstractController
     {
         try {
             $profile = $this->getDoctorProfile($id);
-            assert((bool) $profile, new NotFoundHttpException($this->getProfileNotFoundMessage()));
+            assert((bool) $profile, $this->createNotFoundException($this->getProfileNotFoundMessage()));
             $response = $this->getSuccessResponse($profile);
         } catch (\Throwable $exception) {
             $response = $this->getErrorResponse($exception);

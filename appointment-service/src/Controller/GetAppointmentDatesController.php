@@ -4,23 +4,45 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Response\ResponseModel;
+use App\Service\Model\GetAppointmentDates\SuccessfulResponseBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/appointment')]
+#[Route('/dates')]
 class GetAppointmentDatesController extends AbstractController
 {
-    #[Route('/dates/get', methods: ['GET'])]
-    public function index(): JsonResponse
+    public function __construct(
+        private readonly SuccessfulResponseBuilder $successfulResponseBuilder
+    ) {
+    }
+
+    #[Route(
+        '/get/{doctorProfileId}',
+        requirements: ['doctorProfileId' => '\d+'],
+        methods: ['GET'],
+    )]
+    public function __invoke(int $doctorProfileId): JsonResponse
     {
         try {
-            $response = $this->getSuccessResponse();
+            $response = $this->getSuccessResponse($doctorProfileId);
         } catch (\Throwable $exception) {
             $response = $this->getErrorResponse($exception);
         } finally {
             return $this->json($response->getResponseData()->toArray(), $response->getStatusCode());
         }
+    }
+
+    private function getSuccessResponse(int $doctorProfileId): ResponseModel
+    {
+        return $this->successfulResponseBuilder
+            ->withDoctorProfileId($doctorProfileId)
+            ->build();
+    }
+
+    private function getErrorResponse(\Throwable $exception): ResponseModel
+    {
+        return new ResponseModel();
     }
 }

@@ -28,6 +28,6 @@ class GetWorkingTimeResponseModelConverter
     private function getResponseData(): GetDataModel
     {
         return (new GetDataModel())
-            ->setWorkingTime($this->doctorProfile->getWorkingTime());
+            ->setWorkingHours($this->doctorProfile->getWorkingTime());
     }
 }

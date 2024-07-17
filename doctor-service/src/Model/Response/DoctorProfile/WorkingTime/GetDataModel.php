@@ -6,9 +6,9 @@ use App\Model\Response\ResponseDataModel;
 
 class GetDataModel extends ResponseDataModel
 {
-    public function setWorkingTime(array $workingHours): static
+    public function setWorkingHours(array $workingHours): static
     {
-        $this->data['workingTime'] = $workingHours;
+        $this->data['workingHours'] = $workingHours;
 
         return $this;
     }

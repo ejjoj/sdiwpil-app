@@ -19,6 +19,10 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+                
+    App\Service\Entity\Appointment\WorkingTimeResolver\DefaultWorkingHoursResolver:
+        arguments:
+            $getWorkingHoursUrl: '%env(GET_DOCTOR_WORKING_HOURS_ROUTE)%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

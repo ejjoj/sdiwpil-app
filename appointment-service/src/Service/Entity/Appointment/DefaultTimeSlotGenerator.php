@@ -8,6 +8,7 @@ use Carbon\Carbon;
 class DefaultTimeSlotGenerator
 {
     private array $workingHours;
+    private int $doctorProfileId;
 
     public function __construct(
         private readonly DefaultDayAvailabilityResolver $defaultDayAvailabilityResolver
@@ -21,17 +22,23 @@ class DefaultTimeSlotGenerator
         return $this;
     }
 
+    public function withDoctorProfileId(int $doctorProfileId): static
+    {
+        $this->doctorProfileId = $doctorProfileId;
+
+        return $this;
+    }
+
     public function generate(): array
     {
         $now = $this->roundUpTime();
         $oneMonthLater = Carbon::now()->addMonth();
 
         while ($now->lessThan($oneMonthLater)) {
-//            $dayOfWeek = strtolower($now->format('l'));
-            $dayOfWeek = 'monday'; // TODO: remove this line, uncomment the line above
+            $dayOfWeek = strtolower($now->format('l'));
             $daySchedule = $this->workingHours[$dayOfWeek] ?? [];
-            if ($this->isDayAvailable($daySchedule, $now)) {
-                $result[] = clone $now;
+            if ($this->isDayAvailable($daySchedule, $now, $dayOfWeek)) {
+                $result[] = $now->format('Y-m-d H:i:s');
             }
 
             $now->addMinutes(30);
@@ -47,17 +54,26 @@ class DefaultTimeSlotGenerator
         $roundedMinutes = $minutes <= 30
             ? 30
             : 0;
+        $roundedHours = $minutes <= 30
+            ? (int) $now->format('H')
+            : (int) $now->addHour()->format('H');
 
         return Carbon::now()
+            ->setHour($roundedHours)
             ->setMinute($roundedMinutes)
             ->setSecond(0);
     }
 
-    private function isDayAvailable(array $daySchedule, Carbon $now): bool
-    {
+    private function isDayAvailable(
+        array $daySchedule,
+        Carbon $now,
+        string $dayOfTheWeek,
+    ): bool {
         return $this->defaultDayAvailabilityResolver->isDayAvailable(
             $daySchedule,
-            $now
+            $now,
+            $dayOfTheWeek,
+            $this->doctorProfileId,
         );
     }
 }

@@ -21,6 +21,7 @@ class AppointmentDatesBuilder
 
         return $this->timeSlotGenerator
             ->withWorkingHours($workingHours)
+            ->withDoctorProfileId($this->doctorProfileId)
             ->generate();
     }
 }

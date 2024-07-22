@@ -2,34 +2,54 @@
 
 namespace App\Service\Entity\Appointment\DayAvailabilityResolver;
 
+use App\Repository\AppointmentRepository;
 use Carbon\Carbon;
 
-class DefaultDayAvailabilityResolver implements DayAvailabilityResolverInterface
+readonly class DefaultDayAvailabilityResolver implements DayAvailabilityResolverInterface
 {
-    public function isDayAvailable(array $daySchedule, Carbon $date): bool
+    public function __construct(private AppointmentRepository $appointmentRepository)
     {
+    }
+
+    public function isDayAvailable(
+        array $daySchedule,
+        Carbon $now,
+        string $dayOfTheWeek,
+        int $doctorProfileId,
+    ): bool {
+        $currentDayOfWeek = strtolower($now->format('l'));
+
+        if ($currentDayOfWeek !== $dayOfTheWeek) {
+            return false;
+        }
+
         foreach ($daySchedule as $workingParts) {
             if (empty($workingParts['start']) || empty($workingParts['end'])) {
                 continue;
             }
 
-            $currentDayOfTheWeek = Carbon::now()->format('l');
-            $start = Carbon::createFromFormat('H:i:s', $workingParts['start']);
-            $end = Carbon::createFromFormat('H:i:s', $workingParts['end']);
-            $currentDateHours = $date->format('H');
-            $currentDateMinutes = $date->format('i');
-            // TODO: somehting is wrong here...
+            $currentYmd = $now->format('Y-m-d');
+            $start = Carbon::createFromFormat('Y-m-d H:i:s', $currentYmd . ' ' . $workingParts['start']);
+            $end = Carbon::createFromFormat('Y-m-d H:i:s', $currentYmd . ' ' . $workingParts['end']);
+
             if (
-                $date->format('l') === $currentDayOfTheWeek
-                && $currentDateHours >= $start->format('H')
-                && $currentDateHours <= $end->format('H')
-                && $currentDateMinutes >= $start->format('i')
-                && $currentDateMinutes <= $end->format('i')
+                $now->between($start, $end)
+                && $this->isDoctorAvailable($doctorProfileId, $now)
             ) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private function isDoctorAvailable(int $doctorProfileId, Carbon $now): bool
+    {
+        $criteria = [
+            'doctorProfileId' => $doctorProfileId,
+            'scheduledAt' => $now->toDateTimeImmutable(),
+        ];
+
+        return $this->appointmentRepository->findOneBy($criteria) === null;
     }
 }

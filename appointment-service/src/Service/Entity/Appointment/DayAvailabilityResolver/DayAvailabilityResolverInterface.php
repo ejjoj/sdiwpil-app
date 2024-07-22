@@ -6,5 +6,10 @@ use Carbon\Carbon;
 
 interface DayAvailabilityResolverInterface
 {
-    public function isDayAvailable(array $daySchedule, Carbon $date): bool;
+    public function isDayAvailable(
+        array $daySchedule,
+        Carbon $now,
+        string $dayOfTheWeek,
+        int $doctorProfileId
+    ): bool;
 }

@@ -23,6 +23,14 @@ services:
     App\Service\Entity\Appointment\WorkingTimeResolver\DefaultWorkingHoursResolver:
         arguments:
             $getWorkingHoursUrl: '%env(GET_DOCTOR_WORKING_HOURS_ROUTE)%'
+            
+    App\Service\ExternalEntity\Repository\PatientProfileRepository:
+        arguments:
+            $endpointUrl: '%env(PATIENT_PROFILE_ENDPOINT_URL)%'
+            
+    App\Service\ExternalEntity\Repository\DoctorProfileRepository:
+        arguments:
+            $endpointUrl: '%env(DOCTOR_PROFILE_ENDPOINT_URL)%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Model\Response\ResponseModel;
 use App\Service\Model\GetAppointmentDates\SuccessfulResponseBuilder;
+use App\Service\Response\ErrorResponseStrategy\AccessDeniedErrorResponseStrategy;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,7 +15,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class GetAppointmentDatesController extends AbstractController
 {
     public function __construct(
-        private readonly SuccessfulResponseBuilder $successfulResponseBuilder
+        private readonly SuccessfulResponseBuilder $successfulResponseBuilder,
+        private readonly AccessDeniedErrorResponseStrategy $accessDeniedErrorResponseStrategy
     ) {
     }
 
@@ -43,6 +45,8 @@ class GetAppointmentDatesController extends AbstractController
 
     private function getErrorResponse(\Throwable $exception): ResponseModel
     {
-        return new ResponseModel();
+        return $this->accessDeniedErrorResponseStrategy
+            ->withException($exception)
+            ->get();
     }
 }

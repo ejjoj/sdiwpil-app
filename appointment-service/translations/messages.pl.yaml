@@ -1,0 +1,4 @@
+error:
+    500: "Wystąpił błąd serwera"
+    403: "Brak dostępu. Spróbuj się zalogować."
+

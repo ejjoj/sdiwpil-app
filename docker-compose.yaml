@@ -70,6 +70,20 @@ services:
       - database
     volumes:
       - ./appointment-service:/app:rw
+        
+  patient-service:
+    container_name: patient-service
+    build: patient-service/.
+    env_file: patient-service/.env
+    restart: on-failure
+    tty: true
+    stdin_open: true
+    networks:
+      - app-network
+    depends_on:
+      - database
+    volumes:
+      - ./patient-service:/app:rw
 
   database:
     container_name: database

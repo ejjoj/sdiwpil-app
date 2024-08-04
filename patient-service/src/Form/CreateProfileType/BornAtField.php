@@ -30,6 +30,7 @@ class BornAtField extends AbstractFormField
     protected function getFieldOptions(): array
     {
         return [
+            'html5' => false,
             'widget' => 'single_text',
             'format' => 'yyyy-MM-dd',
             'constraints' => $this->constraintsFactory->create()->toArray(),

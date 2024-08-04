@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 abstract class AbstractNameField extends AbstractFormField
 {
-    private NameFieldConstraintsFactory $nameFieldConstraintsFactory;
+    protected NameFieldConstraintsFactory $nameFieldConstraintsFactory;
 
     public function setNameFieldConstraintsFactory(
         NameFieldConstraintsFactory $nameFieldConstraintsFactory

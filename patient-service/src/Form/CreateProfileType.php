@@ -7,6 +7,7 @@ namespace App\Form;
 use App\Form\CreateProfileType\BornAtField\BornAtFieldFactory;
 use App\Form\CreateProfileType\GenderField;
 use App\Form\CreateProfileType\NameField\NameFieldFactory;
+use App\Form\CreateProfileType\PeselField\PeselFieldFactory;
 use App\Form\CreateProfileType\SecondNameField\SecondNameFieldFactory;
 use App\Form\CreateProfileType\SurnameField\SurnameFieldFactory;
 use Symfony\Component\Form\AbstractType;
@@ -19,6 +20,7 @@ class CreateProfileType extends AbstractType
         private readonly SecondNameFieldFactory $secondNameFieldFactory,
         private readonly SurnameFieldFactory $surnameFieldFactory,
         private readonly BornAtFieldFactory $bornAtFieldFactory,
+        private readonly PeselFieldFactory $peselFieldFactory,
     ) {
     }
 
@@ -28,7 +30,8 @@ class CreateProfileType extends AbstractType
         $nameField->setNextField($this->secondNameFieldFactory->create())
             ->setNextField($this->surnameFieldFactory->create())
             ->setNextField(new GenderField())
-            ->setNextField($this->bornAtFieldFactory->create());
+            ->setNextField($this->bornAtFieldFactory->create())
+            ->setNextField($this->peselFieldFactory->create());
         $nameField->withBuilder($builder)
             ->build();
     }

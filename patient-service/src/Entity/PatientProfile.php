@@ -7,6 +7,7 @@ use App\Repository\PatientProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PatientProfileRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class PatientProfile
 {
     #[ORM\Id]
@@ -152,5 +153,18 @@ class PatientProfile
         $this->customerId = $customerId;
 
         return $this;
+    }
+
+    #[ORM\PreUpdate]
+    public function preUpdate(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

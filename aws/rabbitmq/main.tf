@@ -1,5 +1,5 @@
 resource "aws_instance" "rabbitmq" {
-    ami                    = "ami-0c55b159cbfafe1f0"  # Zmienić na odpowiednią AMI
+    ami                    = "ami-00680fd4e58e51542"
     instance_type          = "t3.micro"
     subnet_id              = var.subnet_ids[0]
     vpc_security_group_ids = [aws_security_group.rabbitmq.id]

@@ -1,0 +1,11 @@
+POST http://localhost:8080/api/patient/profile/create
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "name": "Jan",
+  "surname": "Kowalski",
+  "pesel": "90010849825",
+  "gender": 0,
+  "bornAt": "1990-01-01"
+}

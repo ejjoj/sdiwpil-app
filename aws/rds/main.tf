@@ -3,11 +3,13 @@ resource "aws_db_instance" "sdiwpil_db" {
     storage_type         = "gp2"
     engine               = "postgres"
     engine_version       = "13.3"
-    instance_class       = "db.t3.micro"
+    instance_class       = "db.t2.micro"
     username             = "admin"
     password             = "password"
     db_subnet_group_name = aws_db_subnet_group.default.name
     vpc_security_group_ids = [aws_security_group.rds.id]
+    multi_az             = false
+    publicly_accessible  = true
     skip_final_snapshot  = true
 }
 

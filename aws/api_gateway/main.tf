@@ -22,7 +22,7 @@ resource "aws_api_gateway_integration" "customer_integration" {
   http_method             = aws_api_gateway_method.customer_method.http_method
   type                    = "HTTP_PROXY"
   integration_http_method = "ANY"
-  uri                     = "http://${var.customer_service_endpoint}"
+  uri                     = var.customer_service_endpoint
 }
 
 resource "aws_api_gateway_resource" "appointment_resource" {
@@ -44,7 +44,7 @@ resource "aws_api_gateway_integration" "appointment_integration" {
   http_method             = aws_api_gateway_method.appointment_method.http_method
   type                    = "HTTP_PROXY"
   integration_http_method = "ANY"
-  uri                     = "http://${var.customer_service_endpoint}"
+  uri                     = var.appointment_service_endpoint
 }
 
 resource "aws_api_gateway_resource" "doctor_resource" {
@@ -66,7 +66,7 @@ resource "aws_api_gateway_integration" "doctor_integration" {
   http_method             = aws_api_gateway_method.doctor_method.http_method
   type                    = "HTTP_PROXY"
   integration_http_method = "ANY"
-  uri                     = "http://${var.customer_service_endpoint}"
+  uri                     = var.doctor_service_endpoint
 }
 
 resource "aws_api_gateway_resource" "patient_resource" {
@@ -88,5 +88,5 @@ resource "aws_api_gateway_integration" "patient_integration" {
   http_method             = aws_api_gateway_method.patient_method.http_method
   type                    = "HTTP_PROXY"
   integration_http_method = "ANY"
-  uri                     = "http://${var.customer_service_endpoint}"
+  uri                     = var.patient_service_endpoint
 }

@@ -1,5 +1,0 @@
-region = "eu-north-1"
-customer_service_endpoint    = "http://api.sdiwpil.com/customer"
-appointment_service_endpoint = "http://api.sdiwpil.com/appointment"
-doctor_service_endpoint      = "http://api.sdiwpil.com/doctor"
-patient_service_endpoint     = "http://api.sdiwpil.com/patient"

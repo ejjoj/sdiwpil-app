@@ -3,9 +3,14 @@ output "vpc_id" {
   value       = aws_vpc.main_vpc.id
 }
 
-output "subnet_id" {
-  description = "ID utworzonego Subnetu"
-  value       = aws_subnet.main_subnet.id
+output "subnet_1_id" {
+  description = "ID pierwszego utworzonego Subnetu"
+  value       = aws_subnet.main_subnet_1.id
+}
+
+output "subnet_2_id" {
+  description = "ID drugiego utworzonego Subnetu"
+  value       = aws_subnet.main_subnet_2.id
 }
 
 output "ecs_cluster_name" {
